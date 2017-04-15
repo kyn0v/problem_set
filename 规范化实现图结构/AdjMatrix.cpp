@@ -26,9 +26,10 @@ MGraph CreateGraph(int VertexNum) {	//1.建立有结点无边的图
 	Graph->Nv = VertexNum;
 	Graph->Ne = 0;
 	
+	//默认顶点编号是从0开始
 	for (Vertex V = 0; V < Graph->Nv; V++) {
 		for (Vertex W = 0; W < Graph->Nv; W++) {
-			Graph->G[V][W] = 0;
+			Graph->G[V][W] = 0;	//或INFINITY
 		}
 	}
 	return Graph;
