@@ -29,7 +29,7 @@ void InitGraph() {
 bool FirstJump(int v) {	//第一跳
 	int dx = abs(node[v].x - 0);
 	int dy = abs(node[v].y - 0);
-	if (dx*dx + dy*dy <= D*D) {
+	if (dx*dx + dy*dy <= ( D+15 )*( D+15 )) {
 		return true;
 	}
 	return false;
@@ -67,8 +67,8 @@ bool DFS(int v) {
 	return answer;
 }
 
-void ListComponent() {	//搜索存在安全结点的连通集
-	if (N == 0 && D >= 50) {
+void ListComponent() {	//搜索存在安全路线连通集
+	if (N == 0 && D >= 35) {
 		answer = YES;
 	}
 	for (int v = 0; v < N; v++) {
@@ -89,6 +89,7 @@ int main() {
 }
 
 /*
+图的表示不一定要临界矩阵或者邻接表，它只是一个帮助
 在这种无向图里，表示图只是为了确定图之间是否有“边”，
 在这个例子中，这个功能被jump，issafe和firstjump函数替代了
 --via 当个码农吧
