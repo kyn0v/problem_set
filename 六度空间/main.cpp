@@ -27,6 +27,8 @@ void InitGraph() {
 	AdjNode *NewNode;
 	for (int i = 0; i < V; i++) {	//依次插入边
 		cin >> v >> w;
+		v = v - 1;
+		w = w - 1;	//坑！！！
 		NewNode = new AdjNode(w, map[v].FirstEdge);	//新增临界点尾部接上主数组的FirstEdge
 		map[v].FirstEdge = NewNode;	//主数组的FirstEdge更新为NewNode
 		//无向图要插入两次
@@ -81,5 +83,26 @@ void SDS() {
 
 int main() {
 	InitGraph();
+	//for (int v = 0; v < N; v++) {
+	//	AdjNode *show = map[v].FirstEdge;
+	//	while (show) {
+	//		cout << show->V<<"	";
+	//		show = show->Next;
+	//	}
+	//	cout << endl;
+	//}
 	SDS();
 }
+/*
+测试用例：
+10 9
+1 2
+2 3
+3 4
+4 5
+5 6
+6 7
+7 8
+8 9
+9 10
+*/
