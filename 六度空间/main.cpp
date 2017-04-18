@@ -1,6 +1,8 @@
 #include <iostream>
 #include <queue>
 #include <iomanip>
+#include "adjmatrix_implement.h"
+
 using namespace std;
 
 struct AdjNode
@@ -43,6 +45,15 @@ void InitGraph() {
 
 void Clear() {
 	//收回内存空间
+	AdjNode *cur,*temp;
+	for (int i = 0; i < N; i++) {
+		cur = map[i].FirstEdge;
+		while (cur) {
+			temp = cur->Next;
+			delete cur;
+			cur = temp;
+		}
+	}
 }
 
 
@@ -93,8 +104,14 @@ void SDS() {
 }
 
 int main() {
+	cout << "输入用例：" << endl;
 	InitGraph();
 	SDS();
+	Clear();
+	cout << "输入用例：" << endl;
+	Matrix_Implement m;
+	m.InitGraph();
+	m.SDS();
 }
 /*
 测试用例：
