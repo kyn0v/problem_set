@@ -1,27 +1,25 @@
 #include <iostream>
 using namespace std;
 
-#define MAXSIZE 10001
-#define MAXWEIGHT 99999
+#define MAXSIZE 101
+#define INFINITY 101
 
+typedef int Vertex;
+typedef int TYPEWEIGHT;
+
+int Graph[MAXSIZE][MAXSIZE];
 int N, V;
-
-int dist[MAXSIZE][MAXSIZE];
-int *Path;
 
 void Build() {
 	cin >> N >> V;
-	int v, w, weight;
-	Path = new int[N];
-	for (int i = 0; i < N; i++) {
-		for (int j = 0; j < N; j++) {
-			dist[i][j] = 999;
-		}
-	}
+	Vertex v, w;
+	int weight;
 	for (int i = 0; i < V; i++) {
 		cin >> v >> w >> weight;
-		dist[v][w] = weight;
-		dist[w][v] = weight;
+		v = v - 1;
+		w = w - 1;	//又没长记性。。
+		Graph[v][w] = weight;
+		Graph[w][v] = weight;
 	}
 }
 
@@ -29,23 +27,63 @@ void Floyd() {
 	for (int k = 0; k < N; k++) {
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < N; j++) {
-				if (dist[i][k] + dist[k][j] < dist[i][j]) {
-					dist[i][j] = dist[i][k] + dist[k][j];
+				if (Graph[i][k] + Graph[k][j] < Graph[i][j]) {
+					Graph[i][j] = Graph[i][k] + Graph[k][j];
 				}
 			}
 		}
 	}
 }
 
-void FindAnimal(MGraph G) {
+struct Max
+{
+	int weight;
+	int index;
+	Max():weight(0),index(-1) {}
+};
 
+void FindAnimal() {
+	Floyd();
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < N; j++) {
+			cout << Graph[i][j] << " ";
+		}
+		cout << endl;
+	}
+	Max max[MAXSIZE];
+
+	for (int i = 0; i < N; i++) {	//找出每行的最大值
+		for (int j = 0; j < N; j++) {
+			if (Graph[i][j]>max[i].weight) {
+				max[i].weight = Graph[i][j];
+				max[i].index = j;
+			}
+		}
+	}
+	
+	int min_weight = INFINITY;
+	int min_vertex;
+	int row;
+	for (row = 0; row < N; row++) {	//找出最大值中的最小值
+		if (max[row].weight < min_weight) {
+			min_weight = max[row].weight;
+			min_vertex = max[row].index;
+		}
+	}
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < N; j++) {
+			cout << Graph[i][j] << " ";
+		}
+		cout << endl;
+	}
+	cout << row << " " << min_weight;
 }
 
 int main() {
 	//读入图
-	MGraph G = Build();
+	Build();
 	//分析图
-	FindAnimal(G);
+	FindAnimal();
 	return 0;
 }
 
