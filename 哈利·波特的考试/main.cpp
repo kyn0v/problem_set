@@ -2,7 +2,7 @@
 using namespace std;
 
 #define MAXSIZE 101
-#define INFINITY 101
+#define INFINITY 1000
 
 typedef int Vertex;
 typedef int TYPEWEIGHT;
@@ -14,6 +14,16 @@ void Build() {
 	cin >> N >> V;
 	Vertex v, w;
 	int weight;
+	for (int i = 0; i < MAXSIZE; i++) {
+		for (int j = 0; j < MAXSIZE; j++) {
+			if (i == j) {
+				Graph[i][j] = 0;
+			}
+			else {
+				Graph[i][j] = INFINITY;
+			}
+		}
+	}
 	for (int i = 0; i < V; i++) {
 		cin >> v >> w >> weight;
 		v = v - 1;
@@ -43,13 +53,11 @@ struct Max
 };
 
 void FindAnimal() {
-	Floyd();
-	for (int i = 0; i < N; i++) {
-		for (int j = 0; j < N; j++) {
-			cout << Graph[i][j] << " ";
-		}
-		cout << endl;
+	if (N == 1) {
+		cout << 0;
+		return;
 	}
+	Floyd();
 	Max max[MAXSIZE];
 
 	for (int i = 0; i < N; i++) {	//找出每行的最大值
@@ -60,23 +68,22 @@ void FindAnimal() {
 			}
 		}
 	}
-	
+
 	int min_weight = INFINITY;
-	int min_vertex;
-	int row;
-	for (row = 0; row < N; row++) {	//找出最大值中的最小值
+	int min_i;
+	int min_j;
+	for (int row = 0; row < N; row++) {	//找出最大值中的最小值,并保存该最小节点
 		if (max[row].weight < min_weight) {
 			min_weight = max[row].weight;
-			min_vertex = max[row].index;
+			min_i = row;
+			min_j = max[row].index;
 		}
 	}
-	for (int i = 0; i < N; i++) {
-		for (int j = 0; j < N; j++) {
-			cout << Graph[i][j] << " ";
-		}
-		cout << endl;
+	if (min_weight == INFINITY) {	//如果最小值为INF~~~说明图不连通！ 输出0
+		cout << 0 << endl;
+		return;
 	}
-	cout << row << " " << min_weight;
+	cout << min_i + 1 << " " << min_weight << endl;
 }
 
 int main() {
