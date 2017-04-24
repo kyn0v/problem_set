@@ -37,6 +37,7 @@ void Select() {
 }
 
 int Partition(int l,int r) {
+	//算法课本上的代码，很简练：
 	//int i = l, j = r;
 	//while (i < j) {
 	//	while (i < j&&a[i] <= a[j]) j--;	//右侧扫描
