@@ -89,8 +89,40 @@ void Quick(int l, int r) {
 	}
 }
 
+
+void Merge(int first,int mid,int last,int temp[]) {	//合并子序列
+	int i = first, j = mid + 1, k = 0;
+	while (i <= mid&&j <= last) {
+		if (a[i] < a[j]) {
+			temp[k++] = a[i++];
+		}
+		else {
+			temp[k++] = a[j++];
+		}
+	}
+	while (i <= mid) {
+		temp[k++] = a[i++];
+	}
+	while (j <= last) {
+		temp[k++] = a[j++];
+	}
+	for (int i = 0; i < k; i++) {
+		a[first + i] = temp[i];
+	}
+}
+
+void MergeSort(int first, int last) {
+	int temp[20];	//因为数据量小，临时数组就放在了函数里面，大小设置为20
+	if (first < last) {
+		int mid = (first + last) / 2;
+		MergeSort(first, mid);
+		MergeSort(mid + 1, last);
+		Merge(first, mid, last, temp);
+	}
+}
+
 int main() {
-	Quick(0, 9);
+	MergeSort(0, _size);
 	for (int i = 0; i < _size; i++) {
 		cout << a[i] << endl;
 	}
