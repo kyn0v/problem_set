@@ -4,24 +4,46 @@ using namespace std;
 int a[9] = {9,8,7,6,5,4,3,2,1};
 int _size = 9;
 
-void Bubble() {
+void Bubble_Sort() {
 	int temp;
+	int flag = 0;
 	for (int i = 9; i>0; i--) {
 		for (int j = 0; j < i; j++) {
 			if (a[j] > a[j + 1]) {
 				temp = a[j + 1];
 				a[j + 1] = a[j];
 				a[j] = temp;
+				flag = 1;	/*标识发生了交换*/
 			}
 		}
+		if (flag == 1) break;	//全程无交换，说明已经是排好序的了
 	}
 }
+//冒泡的优点:1.对于用链表存储的数据进行排序不会受到影响
+//			2.保证了排序的稳定性
+
+
+
 
 void Swap(int a[], int i, int j) {
 	int temp = a[i];
 	a[i] = a[j];
 	a[j] = temp;
 }
+
+void Insertion_Sort() {	//类似于抽扑克牌
+	int temp;
+	for (int i = 0; i < _size; i++) {
+		temp = a[i];	//摸下一张牌
+		int j = i;
+		for ( j; i > 0 && a[i - 1] > temp; i--) {
+			a[i] = a[i - 1];	//移除空位
+		}
+		a[j] = temp;	//新牌落位
+	}
+}
+//相比冒泡的优点之一，插入排序不涉及两两交换，相对简单
+//同时插入排序也是稳定的
 
 void Select() {
 	int min = 0;
@@ -119,6 +141,11 @@ void MergeSort(int first, int last) {
 		MergeSort(mid + 1, last);
 		Merge(first, mid, last, temp);
 	}
+}
+
+//希尔排序
+void Hill() {
+
 }
 
 int main() {
