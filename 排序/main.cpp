@@ -22,9 +22,6 @@ void Bubble_Sort() {
 //冒泡的优点:1.对于用链表存储的数据进行排序不会受到影响
 //			2.保证了排序的稳定性
 
-
-
-
 void Swap(int a[], int i, int j) {
 	int temp = a[i];
 	a[i] = a[j];
@@ -36,8 +33,8 @@ void Insertion_Sort() {	//类似于抽扑克牌
 	for (int i = 0; i < _size; i++) {
 		temp = a[i];	//摸下一张牌
 		int j = i;
-		for ( j; i > 0 && a[i - 1] > temp; i--) {
-			a[i] = a[i - 1];	//移除空位
+		for (j; j > 0 && a[j - 1] > temp; j--) {
+			a[j] = a[j - 1];	//移除空位
 		}
 		a[j] = temp;	//新牌落位
 	}
@@ -45,7 +42,27 @@ void Insertion_Sort() {	//类似于抽扑克牌
 //相比冒泡的优点之一，插入排序不涉及两两交换，相对简单
 //同时插入排序也是稳定的
 
-void Select() {
+
+void Shell_Sort(int N) {
+	int temp;
+	for (int D = N / 2; D > 0; D = D / 2) {	//希尔增量序列
+		for (int P = D; P < N; P++) {
+			temp = a[P];
+			int j = P;
+			for (j; j >= D && a[j - D] > temp; j = j - D) {	//将插入排序中的1改为间隔D,还有j>=D应注意
+				a[j] = a[j - D];
+			}
+			a[j] = temp;
+		}
+	}
+}
+/*
+要点：增量元素不互质，则小增量可能根本不起作用
+	Hibbard增量序列：Dk=2^k-1------保证相邻元素互质
+	sedgewick增量序列：。。。
+*/
+
+void Select_Sort() {
 	int min = 0;
 	for (int i = 0; i < _size; i++) {
 		min = i;
@@ -102,12 +119,12 @@ int Partition(int l,int r) {
 	return i;
 }
 
-void Quick(int l, int r) {
+void Quick_Sort(int l, int r) {
 	int temp;
 	if (l < r) {
 		temp = Partition(l, r);
-		Quick(l, temp - 1);
-		Quick(temp + 1, r);
+		Quick_Sort(l, temp - 1);
+		Quick_Sort(temp + 1, r);
 	}
 }
 
@@ -133,23 +150,20 @@ void Merge(int first,int mid,int last,int temp[]) {	//合并子序列
 	}
 }
 
-void MergeSort(int first, int last) {
+void Merge_Sort(int first, int last) {
 	int temp[20];	//因为数据量小，临时数组就放在了函数里面，大小设置为20
 	if (first < last) {
 		int mid = (first + last) / 2;
-		MergeSort(first, mid);
-		MergeSort(mid + 1, last);
+		Merge_Sort(first, mid);
+		Merge_Sort(mid + 1, last);
 		Merge(first, mid, last, temp);
 	}
 }
 
-//希尔排序
-void Hill() {
 
-}
 
 int main() {
-	MergeSort(0, _size);
+	Shell_Sort(_size);
 	for (int i = 0; i < _size; i++) {
 		cout << a[i] << endl;
 	}
