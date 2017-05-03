@@ -75,6 +75,31 @@ void Select_Sort() {
 	}
 }
 
+
+//堆排序
+
+//算法一：
+//void Heap_Sort(int a[],int N) {
+//	BuildHeap(a);
+//	for (int i = 0; i < N; i++) {
+//		temp[i] = DeleteMin(a);
+//	}
+//	for (int i = 0; i < N; i++) {
+//		a[i] = temp[i];
+//	}
+//}
+//算法二：
+//建立最大堆，然后将最大元素与末尾元素交换
+void Heap_Sort(int a[], int n) {
+	for (int i = n / 2; i > 0; i--) {	//建立最大堆
+		PercDown(a, i, n);
+	}
+	for (int i = n - 1; i > 0; i--) {	//筛选出最大元素
+		swap(&a[0], &a[i]);
+		PercDown(a, 0, i);
+	}
+}
+
 int Partition(int l,int r) {
 	//算法课本上的代码，很简练：
 	//int i = l, j = r;
