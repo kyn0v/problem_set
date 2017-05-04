@@ -90,12 +90,32 @@ void Select_Sort() {
 //}
 //算法二：
 //建立最大堆，然后将最大元素与末尾元素交换
+void PercDown(int num[], int index, int size) {
+	int min;// 设置最小指向下标
+	while (index * 2 + 1<size) {// 如果该数有左节点，则假设左节点最小   
+		min = index * 2 + 1;// 获取左节点的下标   
+		if (index * 2 + 2<size) {// 如果该数还有右节点
+			if (num[min] > num[index * 2 + 2]) {// 就和左节点分出最小者   
+				min = index * 2 + 2;// 此时右节点更小，则更新min的指向下标   
+			}
+		}
+		// 此时进行该数和最小者进行比较，   
+		if (num[index] < num[min]) {// 如果index最小，   
+			break;// 停止下滤操作   
+		}
+		else {
+			Swap(num, index, min);// 交换两个数，让大数往下沉   
+			index = min;// 更新index的指向   
+		}
+	}// while   
+}
+
 void Heap_Sort(int a[], int n) {
 	for (int i = n / 2; i > 0; i--) {	//建立最大堆
 		PercDown(a, i, n);
 	}
 	for (int i = n - 1; i > 0; i--) {	//筛选出最大元素
-		swap(&a[0], &a[i]);
+		Swap(a,0, i);
 		PercDown(a, 0, i);
 	}
 }
