@@ -92,20 +92,20 @@ void Select_Sort() {
 //建立最大堆，然后将最大元素与末尾元素交换
 void PercDown(int num[], int index, int size) {
 	int max;// 设置最大指向下标
-	while (index * 2 + 1<size) {// 如果该数有左节点，则假设左节点最小   
-		max = index * 2 + 1;// 获取左节点的下标   
+	while (index * 2 + 1<size) {// 如果该数有左节点，则假设左节点最大   
+		max = index * 2 + 1;// 获取左节点的下标  
 		if (index * 2 + 2<size) {// 如果该数还有右节点
 			if (num[max] < num[index * 2 + 2]) {// 就和左节点分出最大者   
-				max = index * 2 + 2;// 此时右节点更小，则更新min的指向下标   
+				max = index * 2 + 2;// 此时右节点更大，则更新min的指向下标   
 			}
 		}
 		// 此时进行该数和最小者进行比较，   
-		if (num[index] < num[min]) {// 如果index最小，   
+		if (num[index] > num[max]) {// 如果index最大，   
 			break;// 停止下滤操作   
 		}
 		else {
-			Swap(num, index, min);// 交换两个数，让大数往下沉   
-			index = min;// 更新index的指向   
+			Swap(num, index, max);// 交换两个数，让小数往下沉   
+			index = max;// 更新index的指向   
 		}
 	}// while   
 }
