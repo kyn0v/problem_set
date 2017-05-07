@@ -174,7 +174,7 @@ void Quick_Sort(int l, int r) {
 }
 
 
-void Merge(int first,int mid,int last,int temp[]) {	//合并子序列
+void Merge(int a[],int temp[],int first,int mid,int last) {	//合并子序列
 	int i = first, j = mid + 1, k = 0;
 	while (i <= mid&&j <= last) {
 		if (a[i] < a[j]) {
@@ -195,20 +195,91 @@ void Merge(int first,int mid,int last,int temp[]) {	//合并子序列
 	}
 }
 
-void Merge_Sort(int first, int last) {
-	int temp[20];	//因为数据量小，临时数组就放在了函数里面，大小设置为20
+void M_Sort(int a[],int temp[],int first, int last) {	//递归实现
 	if (first < last) {
 		int mid = (first + last) / 2;
-		Merge_Sort(first, mid);
-		Merge_Sort(mid + 1, last);
-		Merge(first, mid, last, temp);
+		M_Sort(a, temp, first, mid);
+		M_Sort(a, temp, mid + 1, last);
+		Merge(a,temp,first, mid, last);
+	}
+}
+void Merge_Sort1(int a[], int n) {	//递归
+	int *temp;
+	temp = new int[n];
+	if (temp != NULL) {
+		M_Sort(a, temp, 0, n - 1);
+		delete[] temp;
+	}
+	else {
+		cout << "空间不足" << endl << endl;
 	}
 }
 
+//优化为有统一函数接口的函数
+void Merge2(int a[],int temp[],int first, int mid, int last) {	//非递归算法合并子序列,少了最后把temp放回a的步骤
+	int i = first, j = mid + 1, k = 0;
+	while (i <= mid&&j <= last) {
+		if (a[i] < a[j]) {
+			temp[k++] = a[i++];
+		}
+		else {
+			temp[k++] = a[j++];
+		}
+	}
+	while (i <= mid) {
+		temp[k++] = a[i++];
+	}
+	while (j <= last) {
+		temp[k++] = a[j++];
+	}
+}
+void Merge_pass(int a[],int temp[],int n,int length) {	//非递归算法
+	//length：当前有序子列的长度
+	int i = 0;
+	for (i=0; i <= n - length * 2; i+=2*length) {	//先处理成对部分
+		Merge2(a, temp, i, i + length, i + 2 * length - 1);	//有序的内容放在temp中，不必导回a
+	}
+	//处理余下部分
+	if (i + length < n) {	//归并最后2个子列
+		Merge2(a, temp, i, i + length, n-1);
+	}
+	else {	//最后只剩一个子列
+		for (int j = i; j < n; j++) {
+			temp[j] = a[j];
+		}
+	}
+}
+//优化为有统一函数接口的函数
+void Merge_Sort2(int a[],int n) {	//非递归
+	int length = 1; //初始有序子列长度为1
+	int *temp;
+	temp = new int[n];
+	if (temp != NULL) {
+		while (length<n) {	//不停进行a与temp间的来回导
+
+
+
+			//这一块有虫子=='
+			Merge_pass(a, temp, n, length);
+			length *= 2;
+			Merge_pass(temp, a, n, length);
+			length *= 2;
+
+
+
+		}
+		delete[] temp;
+	}
+	else {
+		cout << "空间不足" << endl << endl;
+	}
+}
+//归并排序是稳定的算法，通常用于外排序，即内存空间排序不够用的情况下，我们才会选归并排序
+//另外，如果临时数组不声明在最外层，而是每次调用归并函数时重复开辟空间，会降低程序效率
 
 
 int main() {
-	Heap_Sort(a, 10);
+	Merge_Sort2(a, 10);
 	for (int i = 0; i < _size; i++) {
 		cout << a[i] << endl;
 	}
