@@ -173,6 +173,27 @@ void Quick_Sort(int l, int r) {
 	}
 }
 
+//Ö÷ÔªµÄÑ¡È¡²»Ó¦Ïë·¨¼òµ¥¶øÖ±½ÓÈ¡µÚÒ»¸öÔªËØ£¬ÒòÎªÈç¹û´ýÅÅÐòÁÐÓÐÐò£¬Ð§¹û¾ÍºÜ‡åÁË£¬£¬
+//¿ÉÈ¡·½·¨£º1.Ëæ»úº¯ÊýÈ¡ 2.È¡×óÖÐÓÒµÄÖÐÎ»Êý
+int CutOff = 100;	//ÉèÖÃ¿ìÅÅÊý×éµÄ×îÐ¡³¤¶È
+
+int Median3(int a[],int left,int right) {
+	int center = (left+right) / 2;
+	if (a[left] > a[center]) {
+		Swap(&a[left]);
+	}
+}
+
+void Quicksort(int a[], int left, int right) {
+	int pivot;	//Ö÷Ôª
+	if (CutOff <= right - left) {
+		
+	}
+}
+void Quick_Sort2(int a[],int n) {
+
+}
+
 
 void Merge(int a[],int temp[],int first,int mid,int last) {	//ºÏ²¢×ÓÐòÁÐ
 	int i = first, j = mid + 1, k = 0;
@@ -236,7 +257,7 @@ void Merge2(int a[],int temp[],int first, int mid, int last) {	//·ÇµÝ¹éËã·¨ºÏ²¢×
 void Merge_pass(int a[],int temp[],int n,int length) {	//·ÇµÝ¹éËã·¨
 	//length£ºµ±Ç°ÓÐÐò×ÓÁÐµÄ³¤¶È
 	int i = 0;
-	for (i=0; i <= n - length * 2; i+=2*length) {	//ÏÈ´¦Àí³É¶Ô²¿·Ö
+	for (i; i <= n - length * 2; i+=2*length) {	//ÏÈ´¦Àí³É¶Ô²¿·Ö
 		Merge2(a, temp, i, i + length, i + 2 * length - 1);	//ÓÐÐòµÄÄÚÈÝ·ÅÔÚtempÖÐ£¬²»±Øµ¼»Øa
 	}
 	//´¦ÀíÓàÏÂ²¿·Ö
