@@ -164,34 +164,60 @@ int Partition(int l,int r) {
 	return i;
 }
 
-void Quick_Sort(int l, int r) {
+void Quick_Sort1(int l, int r) {
 	int temp;
 	if (l < r) {
 		temp = Partition(l, r);
-		Quick_Sort(l, temp - 1);
-		Quick_Sort(temp + 1, r);
+		Quick_Sort1(l, temp - 1);
+		Quick_Sort1(temp + 1, r);
 	}
 }
 
 //主元的选取不应想法简单而直接取第一个元素，因为如果待排序列有序，效果就很囧了，，
 //可取方法：1.随机函数取 2.取左中右的中位数
-int CutOff = 100;	//设置快排数组的最小长度
+//int CutOff = 100;	//设置快排数组的最小长度
 
 int Median3(int a[],int left,int right) {
 	int center = (left+right) / 2;
 	if (a[left] > a[center]) {
-		Swap(&a[left]);
+		Swap(a, left, center);
 	}
+	if (a[left] > a[right]) {
+		Swap(a, left, right);
+	}
+	if (a[center] > a[right]) {
+		Swap(a, center, right);
+	}
+
+	Swap(a, center, right - 1);	//将pivot藏到右边
+	//这样只需要考虑a[left+1]...a[right-2]
+	return a[right-1];
 }
 
-void Quicksort(int a[], int left, int right) {
-	int pivot;	//主元
-	if (CutOff <= right - left) {
-		
+void quicksort(int a[], int left, int right) {
+	int pivot = Median3(a, left, right);	//主元
+	/*if (CutOff <= right - left) {
+		Quicksort();
+	} else{
+		Insert_Sort(a+left,right_left+1)
 	}
+		
+	*/
+	int i = left, j = right - 1;
+	while (true) {
+		while (a[++i] < pivot) {}
+		while (a[--j] > pivot) {}
+		if (i < j)
+			Swap(a, i, j);
+		else
+			break;
+	}
+	Swap(a, i, right - 1);
+	quicksort(a, left, i - 1);
+	quicksort(a, i + 1, right);
 }
 void Quick_Sort2(int a[],int n) {
-
+	quicksort(a, 0, n - 1);
 }
 
 
@@ -300,7 +326,7 @@ void Merge_Sort2(int a[],int n) {	//非递归
 
 
 int main() {
-	Merge_Sort2(a, 10);
+	Quick_Sort2(a, 10);
 	for (int i = 0; i < _size; i++) {
 		cout << a[i] << endl;
 	}
