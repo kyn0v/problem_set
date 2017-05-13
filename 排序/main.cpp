@@ -1,8 +1,8 @@
 #include <iostream>
 using namespace std;
 
-int a[9] = {9,8,7,6,5,4,3,2,1};
-int _size = 9;
+int a[10] = {9,8,7,6,5,4,3,2,1,0};
+int _size = 10;
 
 void Bubble_Sort() {
 	int temp;
@@ -164,12 +164,12 @@ int Partition(int l,int r) {
 	return i;
 }
 
-void Quick_Sort1(int l, int r) {
+void quicksort1(int l, int r) {
 	int temp;
 	if (l < r) {
 		temp = Partition(l, r);
-		Quick_Sort1(l, temp - 1);
-		Quick_Sort1(temp + 1, r);
+		quicksort1(l, temp - 1);
+		quicksort1(temp + 1, r);
 	}
 }
 
@@ -191,35 +191,34 @@ int Median3(int a[],int left,int right) {
 
 	Swap(a, center, right - 1);	//将pivot藏到右边
 	//这样只需要考虑a[left+1]...a[right-2]
-	return a[right-1];
+	return a[right-1];	//返回基准值
 }
 
-void quicksort(int a[], int left, int right) {
-	int pivot = Median3(a, left, right);	//主元
-	/*if (CutOff <= right - left) {
+void Qsort(int a[], int left, int right) {
+	/*
+	if (CutOff <= right - left) {
 		Quicksort();
 	} else{
 		Insert_Sort(a+left,right_left+1)
-	}
-		
+	}	
 	*/
-	int i = left, j = right - 1;
-	while (true) {
-		while (a[++i] < pivot) {}
-		while (a[--j] > pivot) {}
-		if (i < j)
-			Swap(a, i, j);
+	int pivot = Median3(a, left, right);	//选主元
+	int low = left, high = right - 1;
+	while (true) {	/*将序列中比基准小的移到基准左边，大的移到右边*/
+		while (a[++low] < pivot);
+		while (a[--high] > pivot);
+		if (low < high)
+			Swap(a, low, high);
 		else
 			break;
 	}
-	Swap(a, i, right - 1);
-	quicksort(a, left, i - 1);
-	quicksort(a, i + 1, right);
+	Swap(a, low, right - 1);
+	Qsort(a, left, low - 1);	//递归解决左边
+	Qsort(a, low + 1, right);	//递归解决右边
 }
 void Quick_Sort2(int a[],int n) {
-	quicksort(a, 0, n - 1);
+	Qsort(a, 0, n - 1);
 }
-
 
 void Merge(int a[],int temp[],int first,int mid,int last) {	//合并子序列
 	int i = first, j = mid + 1, k = 0;
@@ -326,10 +325,9 @@ void Merge_Sort2(int a[],int n) {	//非递归
 
 
 int main() {
-	Quick_Sort2(a, 10);
+	Quick_Sort2(a, _size);
 	for (int i = 0; i < _size; i++) {
 		cout << a[i] << endl;
 	}
-	system("pause");
 }
 
