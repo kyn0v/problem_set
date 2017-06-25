@@ -1,4 +1,5 @@
 #include <iostream>
+#include "headfile.h"
 using namespace std;
 
 void Problem1() {	//Ô¼Éª·ò»·
@@ -296,6 +297,7 @@ void P10(void) {
 		}
 	}
 }
+
 
 
 int main()
