@@ -298,6 +298,42 @@ void P10(void) {
 	}
 }
 
+struct Jose {
+	int code;
+	Jose* next;
+};
+void P11(void) {
+	int n;
+	cin >> n;	//人数
+	int k;
+	cin >> k;	//间隔数
+	Jose *head, *p1, *p2;
+	head = new Jose;
+	head->code = 1;
+	p2 = head;
+	//连成圈
+	for (int i = 2; i <= n; i++) {
+		p1 = new Jose;
+		p1->code = i;	//编号
+		p2->next = p1;
+		p2 = p2->next;	//p2=p1
+	}
+	p2->next = head;
+	//开始数
+	p1 = head;
+	while (p1->next != p1) {
+		int cnt = 1;
+		while (cnt < k) {
+			p2 = p1;	//保存前一节点
+			p1 = p1->next;
+			cnt++;
+		}
+		p2->next = p1->next;
+		delete p1;
+		p1 = p2->next;
+	}
+	cout << p1->code << endl;
+}
 
 
 int main()
@@ -311,7 +347,8 @@ int main()
 	//Problem7();
 	//cout << P8(8) << endl;
 	//P9(3, 'A', 'B', 'C');
-	P10();
+	//P10();
+	P11();
 	return 0;
 }
 
